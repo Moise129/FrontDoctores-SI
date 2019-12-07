@@ -1,0 +1,53 @@
+<ion-content>
+  <ion-grid>
+    <ion-row style="margin: 50px 0px;">
+      <ion-col size="4" offset="4">
+        <ion-img [src]="logo"></ion-img>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="10" offset="1">
+        <ion-segment (ionChange)="changeRol($event)" value="1">
+          <ion-segment-button value="1">
+            <ion-label>Doctor</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="2">
+            <ion-label>Paciente</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-col>
+    </ion-row>
+
+    <form [formGroup]="signInForm" (ngSubmit)="signIn(signInForm.value)">
+      <ion-row>
+        <ion-col size="10" offset="1">
+          <ion-input *ngIf="rol_id == 1" type="text" placeholder="Cédula profesional" class="input" formControlName="uid"></ion-input>
+          <ion-input *ngIf="rol_id == 2" type="text" placeholder="Correo electrónico" class="input" formControlName="uid"></ion-input>
+          <ion-input type="password" placeholder="Contraseña" class="input" formControlName="password"></ion-input>
+          <ion-input type="text" placeholder="Nombre completo" class="input" formControlName="full_name"></ion-input>
+          <ion-input *ngIf="rol_id == 1" type="text" placeholder="Institución" class="input" formControlName="institution"></ion-input>
+        
+          <div *ngIf="signInFailed" style="text-align: center;">
+            <ion-label color="danger">{{ signInFailedMessage }}</ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="5" offset="1">
+          <div style="height: 30%;"></div>
+          <a routerLink="/log-in" routerDirection="root" class="link">Iniciar Sesión</a>
+        </ion-col>
+        
+        <ion-col size="5">
+          <ion-button expand="block" shape="round" type="submit" [disabled]="!signInForm.valid">
+            Registrarme&nbsp;
+            <ion-icon *ngIf="!signInLoading" name="arrow-forward"></ion-icon> 
+            <ion-spinner *ngIf="signInLoading" name="crescent"></ion-spinner>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>

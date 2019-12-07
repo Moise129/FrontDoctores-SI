@@ -1,0 +1,56 @@
+<ion-content style="--padding-top: 60px;">
+  <form [formGroup]="clinicForm" (ngSubmit)="saveClinic(clinicForm.value)">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="10" offset="1">
+          <ion-item class="input">
+            <ion-label>Hora de apertura</ion-label>
+            <ion-datetime 
+              displayFormat="HH" 
+              doneText="Seleccionar"
+              cancelText="Cancelar"
+              formControlName="open">
+            </ion-datetime>
+          </ion-item>
+
+          <ion-item class="input">
+            <ion-label>Hora de cierre</ion-label>
+            <ion-datetime 
+              displayFormat="HH" 
+              doneText="Seleccionar"
+              cancelText="Cancelar"
+              formControlName="close">
+            </ion-datetime>
+          </ion-item>
+
+          <ion-item class="input">
+            <ion-label>Duración de citas</ion-label>
+            <ion-select formControlName="appointment_duration">
+              <ion-select-option value="15">15 minutos</ion-select-option>
+              <ion-select-option value="20">20 minutos</ion-select-option>
+              <ion-select-option value="30">30 minutos</ion-select-option>
+              <ion-select-option value="60">60 minutos</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <div *ngIf="saveClinicSuccessful" style="text-align: center;">
+            <ion-label color="success">Clínica guardada con éxito</ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4" offset="1">
+          <ion-button expand="block" shape="round" color="medium" routerLink="/home" routerDirection="root">Cancelar</ion-button>
+        </ion-col>
+        
+        <ion-col size="4" offset="2">
+          <ion-button expand="block" shape="round" type="submit" [disabled]="!clinicForm.valid">
+            Guardar&nbsp; 
+            <ion-spinner *ngIf="saveClinicLoading" name="crescent"></ion-spinner>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

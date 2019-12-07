@@ -1,0 +1,33 @@
+<ion-content style="--padding-top: 60px;">
+  <ion-item>
+    <ion-label>Fecha</ion-label>
+    <ion-datetime 
+      displayFormat="DD MMMM YYYY" 
+      doneText="Seleccionar"
+      cancelText="Cancelar"
+      [monthNames]="months" 
+      [(ngModel)]="date" 
+      (ionChange)="dateChanged($event)">
+    </ion-datetime>
+  </ion-item>
+
+  <ion-list>
+    <ion-item *ngFor="let time of times; let i = index">
+      <ion-note slot="start">{{ time }}</ion-note>
+
+      <ion-label *ngIf="searchAppointment(time); else scheduleButton">
+        <ion-button expand="full" (click)="showAppointment(searchAppointment(time), time, i)">
+          <span style="text-align: left; width: 100%;">{{ searchAppointment(time).patient_id.full_name }}</span>
+        </ion-button>
+      </ion-label>
+
+      <ng-template #scheduleButton>
+        <ion-label>
+          <ion-button expand="full" color="light" (click)="navigateAppointmentPage(time, i)">
+            <span style="text-align: left; width: 100%;">Agendar</span>
+          </ion-button>
+        </ion-label>
+      </ng-template>
+    </ion-item>
+  </ion-list>
+</ion-content>

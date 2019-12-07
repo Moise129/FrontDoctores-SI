@@ -1,0 +1,51 @@
+<ion-content>
+  <ion-grid>
+    <ion-row style="margin: 50px 0px;">
+      <ion-col size="4" offset="4">
+        <ion-img [src]="logo"></ion-img>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="10" offset="1">
+        <ion-segment (ionChange)="changeRol($event)" value="1">
+          <ion-segment-button value="1">
+            <ion-label>Doctor</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="2">
+            <ion-label>Paciente</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-col>
+    </ion-row>
+
+    <form [formGroup]="logInForm" (ngSubmit)="logIn(logInForm.value)">
+      <ion-row>
+        <ion-col size="10" offset="1">
+          <ion-input *ngIf="rol_id == 1" type="text" placeholder="Cédula Profesional" class="input" formControlName="uid"></ion-input>
+          <ion-input *ngIf="rol_id == 2" type="text" placeholder="Correo Electrónico" class="input" formControlName="uid"></ion-input>
+          <ion-input type="password" placeholder="Contraseña" class="input" formControlName="password"></ion-input>
+        
+          <div *ngIf="logInFailed" style="text-align: center;">
+            <ion-label color="danger">¡Usuario o contraseña incorrectos!</ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="5" offset="1">
+          <div style="height: 30%;"></div>
+          <a routerLink="/sign-in" routerDirection="root" class="link">Registrarme</a>
+        </ion-col>
+        
+        <ion-col size="5">
+          <ion-button expand="block" shape="round" type="submit" [disabled]="!logInForm.valid">
+            Iniciar&nbsp; 
+            <ion-icon *ngIf="!logInLoading" name="arrow-forward"></ion-icon> 
+            <ion-spinner *ngIf="logInLoading" name="crescent"></ion-spinner>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>

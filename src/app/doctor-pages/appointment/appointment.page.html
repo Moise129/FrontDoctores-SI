@@ -1,0 +1,38 @@
+<ion-content style="--padding-top: 60px;">  
+  <form [formGroup]="appointmentForm" (ngSubmit)="scheduleAppointment(appointmentForm.value)">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="10" offset="1">
+          <ion-list>
+            <ion-item>
+              <ion-label>Fecha</ion-label>
+              <ion-note slot="end">{{ appointment.date | date:'mediumDate' }}</ion-note>
+            </ion-item>
+            
+            <ion-item>
+              <ion-label>Hora</ion-label>
+              <ion-note slot="end">{{ appointment.start }} - {{ appointment.end }}</ion-note>
+            </ion-item>
+          </ion-list>
+
+          <ion-input type="text" placeholder="Paciente" class="input" formControlName="full_name"></ion-input>
+          <ion-input type="number" placeholder="Teléfono" class="input" formControlName="phone"></ion-input>
+          <ion-input type="text" placeholder="Motivo de consulta" class="input" formControlName="reason"></ion-input> 
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4" offset="1">
+          <ion-button expand="block" shape="round" color="medium" routerLink="/home" routerDirection="root">Cancelar</ion-button>
+        </ion-col>
+        
+        <ion-col size="4" offset="2">
+          <ion-button expand="block" shape="round" type="submit" [disabled]="!appointmentForm.valid">
+            Agendar&nbsp; 
+            <ion-spinner *ngIf="scheduleAppointmentLoading" name="crescent"></ion-spinner>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
