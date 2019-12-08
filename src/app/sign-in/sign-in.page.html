@@ -24,8 +24,19 @@
         <ion-col size="10" offset="1">
           <ion-input *ngIf="rol_id == 1" type="text" placeholder="Cédula profesional" class="input" formControlName="uid"></ion-input>
           <ion-input *ngIf="rol_id == 2" type="text" placeholder="Correo electrónico" class="input" formControlName="uid"></ion-input>
-          <ion-input type="password" placeholder="Contraseña" class="input" formControlName="password"></ion-input>
+          
+          <!-- Validar contraseña -->
+          <div>
+              <ion-input type="password" placeholder="Contraseña" class="input" formControlName="password"></ion-input>
+              <div *ngIf="signInForm.get('password').invalid && signInForm.get('password').touched " style="text-align: center;">
+                  <ion-label color="danger">Contraseña no valido (8 - 16 caracteres, al menos un dígito, 
+                      al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico)</ion-label>
+                </div>
+          </div>
+          
+
           <ion-input type="text" placeholder="Nombre completo" class="input" formControlName="full_name"></ion-input>
+          <ion-input type="number" placeholder="Numero telefonico" class="input" formControlName="telephone"></ion-input>
           <ion-input *ngIf="rol_id == 1" type="text" placeholder="Institución" class="input" formControlName="institution"></ion-input>
         
           <div *ngIf="signInFailed" style="text-align: center;">

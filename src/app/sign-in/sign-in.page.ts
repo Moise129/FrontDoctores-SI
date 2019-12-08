@@ -9,6 +9,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./sign-in.page.scss'],
 })
 export class SignInPage implements OnInit {
+  validPassword = /^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$/i;
   logo: string = '../assets/icon/logo.svg'
   
   signInForm: FormGroup
@@ -20,9 +21,10 @@ export class SignInPage implements OnInit {
   constructor(private formBuilder: FormBuilder, private doctorApiService: DoctorApiService, private navController: NavController) { 
     this.signInForm = this.formBuilder.group({
       uid: ['', Validators.required ],
-      password: ['', Validators.required ],
+      password: ['', Validators.compose([Validators.required, Validators.pattern(this.validPassword)])], 
       full_name: ['', Validators.required ],
       institution: [''],
+      telephone: [''],
       rol_id: ['']
     });
   }
@@ -59,7 +61,6 @@ export class SignInPage implements OnInit {
         setTimeout(() => {
           this.signInFailed = false
         }, 2000)
-
         console.log(error)
       }
     )

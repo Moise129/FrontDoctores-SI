@@ -5,16 +5,24 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class DoctorApiService {
-  apiUrl: string = 'https://doctorapp-api.herokuapp.com/api/v1'
+  //apiUrl: string = 'https://doctorapp-api.herokuapp.com/api/v1'
 
+  apiUrl: string = 'http://127.0.0.1:3333/api/v1'
   constructor(private http: HttpClient) { 
+  }
 
+
+  //Forgot password
+  forgotPassword(email: any) {
+    console.log(email)
+    return this.http.post(this.apiUrl + '/users/forgot_password', email)
   }
 
   //User methods
   postToken(user: any) {
     return this.http.post(this.apiUrl + '/tokens', user)
   }
+
 
   postUser(user: any) {
     return this.http.post(this.apiUrl + '/users', user)
