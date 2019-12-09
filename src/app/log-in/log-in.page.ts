@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { DoctorApiService } from '../services/doctor-api.service';
-import { NavController,AlertController} from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-log-in',
@@ -14,26 +14,37 @@ export class LogInPage implements OnInit {
   forgotPasswordFailed: boolean = false
   ForgotPasswordForm: FormGroup
 
+  validationActive = 0
+
   logo: string = '../assets/icon/logo.svg'
   logInForm: FormGroup
   rol_id: string = '1'
   logInFailed: boolean = false
   logInLoading: boolean = false
 
+  validationForm: FormGroup
+  validationFailed: boolean = false
+  validationLoading: boolean = false
+
+  user: any
+  code: any
+
   constructor(
     private formBuilder: FormBuilder,
-    private doctorApiService: DoctorApiService, 
+    private doctorApiService: DoctorApiService,
     private navController: NavController,
-    private alertCtrl: AlertController) 
-    {
-      this.logInForm = this.formBuilder.group({
-        uid: ['', Validators.required],
-        password: ['', Validators.required]
-      });
-      this.ForgotPasswordForm = this.formBuilder.group({
-        uid: ['', Validators.compose([Validators.required, Validators.pattern(this.validEmail)])],
-      });
-    }
+    private alertCtrl: AlertController) {
+    this.logInForm = this.formBuilder.group({
+      uid: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+    this.ForgotPasswordForm = this.formBuilder.group({
+      uid: ['', Validators.compose([Validators.required, Validators.pattern(this.validEmail)])],
+    });
+    this.validationForm = this.formBuilder.group({
+      code: ['', Validators.required]
+    });
+  }
 
   ngOnInit() {
   }
@@ -53,8 +64,21 @@ export class LogInPage implements OnInit {
     this.logInLoading = true
     this.doctorApiService.postToken(user)
       .subscribe(response => {
-        localStorage.setItem('user', JSON.stringify(response))
-        this.navController.navigateRoot('')
+        this.user = JSON.stringify(response)
+        let validation = JSON.parse(JSON.stringify(response)).session.user.validation
+        let token = JSON.parse(JSON.stringify(response)).session.token
+        console.log(token)
+        if (validation == true) {
+          this.code = Math.round(Math.random() * 9999 + 1001)
+          localStorage.setItem('code', this.code)
+          this.doctorApiService.sendMessage(this.code, token).subscribe(response => {
+            console.log("Mensaje enviado")
+          })
+          this.validationActive = 1
+        } else {
+          localStorage.setItem('user', this.user)
+          this.navController.navigateRoot('')
+        }
       },
         error => {
           this.logInLoading = false
@@ -73,33 +97,68 @@ export class LogInPage implements OnInit {
     this.logInLoading = true
     this.doctorApiService.forgotPassword(email).subscribe(response => {
       this.alert()
-    },error => {
-        this.logInLoading = false
-        this.forgotPasswordFailed = true
-        setTimeout(() => {
-          this.forgotPasswordFailed = false
-        }, 2000)
-        console.log(error)
-      }
+    }, error => {
+      this.logInLoading = false
+      this.forgotPasswordFailed = true
+      setTimeout(() => {
+        this.forgotPasswordFailed = false
+      }, 2000)
+      console.log(error)
+    }
     )
   }
   change_status(status: any) {
     this.forgotPassword = status
   }
-  async alert(){
+  async alert() {
     let alerta = await this.alertCtrl.create({
       header: 'Accion correcta',
       message: 'Comprueba su correo lectronico. Se le ha enviado un link para recuperar su contraseña.',
       buttons: [
         {
-          text:'OK',
+          text: 'OK',
           handler: () => {
             this.forgotPassword = 0
+            this.logInLoading = false
           }
         }
       ]
     });
     await alerta.present();
   }
-  
+
+  async validation(formCode) {
+    this.validationLoading = true
+    let code_s: string = JSON.parse(localStorage.getItem('code'))
+    let code = this.validationForm.value.code
+    console.log(code_s, " === ", code)
+    if (code_s == code) {
+      console.log("Validacion correcta")
+      let alerta = await this.alertCtrl.create({
+        header: 'Codigo correcto',
+        message: 'Su cuenta se ha validado correctamente',
+        buttons: [
+          {
+            text: 'OK',
+            handler: () => {
+              localStorage.setItem('user', this.user)
+              this.navController.navigateRoot('')
+            }
+          }
+        ]
+      });
+      await alerta.present();
+
+    } else {
+      this.validationLoading = false
+      this.validationFailed = true
+      setTimeout(() => {
+        this.validationFailed = false
+      }, 2000)
+    }
+  }
+
+  returned(status) {
+    this.validationActive = status
+  }
 }
