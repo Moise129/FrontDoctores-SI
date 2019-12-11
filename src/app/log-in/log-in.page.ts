@@ -52,9 +52,14 @@ export class LogInPage implements OnInit {
   logIn(user) {
     this.logInLoading = true
     this.doctorApiService.postToken(user)
-      .subscribe(response => {
+      .subscribe((response:any) => {
         localStorage.setItem('user', JSON.stringify(response))
-        this.navController.navigateRoot('')
+        console.log(response)
+        //console.log(response.user.rol_id == 1)
+        if(response.session.user.rol_id == 1) 
+          this.navController.navigateRoot('')
+        else
+          this.navController.navigateRoot('home-patient')
       },
         error => {
           this.logInLoading = false

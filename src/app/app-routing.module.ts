@@ -13,6 +13,8 @@ const routes: Routes = [
   { path: 'reserved', loadChildren: './doctor-pages/reserved/reserved.module#ReservedPageModule', canActivate: [LoginGuard] },
   { path: 'clinic', loadChildren: './doctor-pages/clinic/clinic.module#ClinicPageModule' },
   { path: 'profile', loadChildren: './doctor-pages/profile/profile.module#ProfilePageModule' },
+  { path: 'home-patient', loadChildren: './patient-pages/home/home.module#HomePageModule' },
+
 ];
 
 @NgModule({
