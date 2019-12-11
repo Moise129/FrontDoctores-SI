@@ -9,7 +9,8 @@
     <ion-content *ngIf="isLoggedIn()">
       <ion-list>
         <ion-item>
-          <a (click)="navigatePage('profile')" class="link">Perfil</a>
+          <a *ngIf="getUserRole()==1" (click)="navigatePage('profile')" class="link">Perfil</a>
+          <a *ngIf="getUserRole()==2" (click)="navigatePage('profile-patient')" class="link">Perfil</a>
         </ion-item>
         <ion-item *ngIf="getUserRole()==1">
           <a (click)="navigatePage('clinic')" class="link">Clínica</a>
