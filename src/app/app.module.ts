@@ -12,11 +12,13 @@ import { HeaderComponent } from './components/header/header.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LogsPipe } from './logs.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    LogsPipe
   ],
   entryComponents: [
     

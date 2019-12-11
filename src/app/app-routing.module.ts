@@ -19,6 +19,8 @@ const routes: Routes = [
   { path: 'update-password/:token/:email', loadChildren: './forgot-password/forgot-password.module#ForgotPasswordPageModule' },
   { path: 'home-patient', loadChildren: './patient-pages/home/home.module#HomePageModule'},
   { path: 'profile-patient', loadChildren: './patient-pages/profile/profile.module#ProfilePageModule' },
+  { path: 'logs', loadChildren: './logs/logs.module#LogsPageModule' },
+
 ];
 
 @NgModule({
