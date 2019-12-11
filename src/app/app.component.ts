@@ -42,4 +42,9 @@ export class AppComponent {
     this.menuController.close('menu')
     this.navController.navigateRoot(url)
   }
+
+  getUserRole(){
+    let session = JSON.parse(localStorage.getItem('user')).session
+    return session.user.role_id;
+  }
 }

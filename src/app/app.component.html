@@ -11,7 +11,7 @@
         <ion-item>
           <a (click)="navigatePage('profile')" class="link">Perfil</a>
         </ion-item>
-        <ion-item>
+        <ion-item *ngIf="getUserRole()==1">
           <a (click)="navigatePage('clinic')" class="link">Clínica</a>
         </ion-item>
 
