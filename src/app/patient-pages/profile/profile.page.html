@@ -4,6 +4,7 @@
       <ion-row>
         <ion-col size="10" offset="1">
           <ion-input type="text" class="input" readonly formControlName="full_name"></ion-input>
+          <ion-input placeholder="telephone" class="input" rows="5" formControlName="telephone"></ion-input>
           <ion-input placeholder="email" class="input" rows="5" formControlName="email"></ion-input>
         
           <div *ngIf="saveProfileSuccessful" style="text-align: center;">
@@ -14,7 +15,7 @@
 
       <ion-row>
         <ion-col size="4" offset="1">
-          <ion-button expand="block" shape="round" color="medium" routerLink="/home" routerDirection="root">Cancelar</ion-button>
+          <ion-button expand="block" shape="round" color="medium" routerLink="/home-patient" routerDirection="root">Cancelar</ion-button>
         </ion-col>
         
         <ion-col size="4" offset="2">

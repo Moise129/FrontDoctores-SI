@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DoctorApiService } from '../../services/doctor-api.service';
 import { AlertController } from '@ionic/angular';
 import { Router, NavigationExtras } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ export class HomePage {
   constructor(
     private doctorApiService: DoctorApiService, 
     public alertController: AlertController, 
-    private router: Router
+    private router: Router,
+    private navController: NavController
   ) 
   {
     this.getAppointments()
@@ -42,22 +44,23 @@ export class HomePage {
     this.doctorApiService.getClinic(this.token)
       .subscribe((response: any) => {
         this.clinic = response.data
-        
-        let appointment_duration: number = Number(this.clinic.appointment_duration) 
-        let clinic_open: number = Number(this.clinic.open.substring(0,2))
-        let clinic_close: number = Number(this.clinic.close.substring(0,2))
+        if(this.clinic){
+          let appointment_duration: number = Number(this.clinic.appointment_duration) 
+          let clinic_open: number = Number(this.clinic.open.substring(0,2))
+          let clinic_close: number = Number(this.clinic.close.substring(0,2))
 
-        for(let hour = clinic_open; hour < clinic_close; hour++) {
-          for(let minute = 0; minute < 59; minute += appointment_duration) {
-            let time: string = ''
-            if(hour < 10) time += '0'
-            time += hour + ':' + minute
-            if(minute == 0) time += '0'
-            this.times.push(time)
+          for(let hour = clinic_open; hour < clinic_close; hour++) {
+            for(let minute = 0; minute < 59; minute += appointment_duration) {
+              let time: string = ''
+              if(hour < 10) time += '0'
+              time += hour + ':' + minute
+              if(minute == 0) time += '0'
+              this.times.push(time)
+            }
           }
         }
-      },
-      error => {
+        
+      }, error => {
         console.log(error)
       }
     )

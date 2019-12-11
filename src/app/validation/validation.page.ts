@@ -30,7 +30,7 @@ export class ValidationPage implements OnInit {
 
   validation(user) {
     this.validationLoading = true
-    this.doctorApiService.validationByMessage(user).subscribe(response => {
+    /* this.doctorApiService.validationByMessage(user).subscribe(response => {
         localStorage.setItem('user', JSON.stringify(response))
         let validation = JSON.parse(JSON.stringify(response)).session.user.validation
         if(validation){
@@ -48,6 +48,6 @@ export class ValidationPage implements OnInit {
           }, 2000)
           console.log(error)
         }
-      )
+      ) */
   }
 }

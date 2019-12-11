@@ -32,12 +32,13 @@ export class ClinicPage implements OnInit {
     this.doctorApiService.getClinic(this.token)
       .subscribe((response: any) => {
         this.clinic = response.data
-
-        this.clinicForm.setValue({ 
-          open: response.data.open, 
-          close: response.data.close, 
-          appointment_duration: response.data.appointment_duration 
-        })
+        if (response.data){
+          this.clinicForm.setValue({ 
+            open: response.data.open, 
+            close: response.data.close, 
+            appointment_duration: response.data.appointment_duration 
+          })
+        }
       },
       error => {
         console.log(error)

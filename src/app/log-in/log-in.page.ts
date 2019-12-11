@@ -47,6 +47,7 @@ export class LogInPage implements OnInit {
   }
 
   ngOnInit() {
+    this.logInLoading = false
   }
 
   changeRol(event: any) {
@@ -70,11 +71,14 @@ export class LogInPage implements OnInit {
         console.log(token)
         if (validation == true) {
           this.code = Math.round(Math.random() * 9999 + 1001)
+          console.log('code:', this.code)
           localStorage.setItem('code', this.code)
           this.doctorApiService.sendMessage(this.code, token).subscribe(response => {
             console.log("Mensaje enviado")
           })
           this.validationActive = 1
+          this.logInLoading = false
+          
         } else {
           localStorage.setItem('user', this.user)
           
@@ -146,11 +150,10 @@ export class LogInPage implements OnInit {
             text: 'OK',
             handler: () => {
               localStorage.setItem('user', this.user)
-          
-            if(this.user.session.user.rol_id == 1)
-              this.navController.navigateRoot('')
-            else
-              this.navController.navigateRoot('home-patient')
+              if(JSON.parse(this.user).session.user.rol_id == 1)
+                this.navController.navigateRoot('')
+              else
+                this.navController.navigateRoot('home-patient')
             }
           }
         ]

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginGuard } from './guards/login.guard';
+import { HomeGuard } from './guards/home.guard';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full', canActivate: [LoginGuard] },
@@ -15,7 +17,7 @@ const routes: Routes = [
   { path: 'profile', loadChildren: './doctor-pages/profile/profile.module#ProfilePageModule' },
   { path: 'validation', loadChildren: './validation/validation.module#ValidationPageModule' },
   { path: 'update-password/:token/:email', loadChildren: './forgot-password/forgot-password.module#ForgotPasswordPageModule' },
-  { path: 'home-patient', loadChildren: './patient-pages/home/home.module#HomePageModule' },
+  { path: 'home-patient', loadChildren: './patient-pages/home/home.module#HomePageModule'},
   { path: 'profile-patient', loadChildren: './patient-pages/profile/profile.module#ProfilePageModule' },
 ];
 

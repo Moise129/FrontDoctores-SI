@@ -19,7 +19,8 @@ export class ProfilePage implements OnInit {
   constructor(private formBuilder: FormBuilder, private http:HttpClient) { 
     this.profileForm = this.formBuilder.group({
       full_name: ['', Validators.required ],
-      email: ['', Validators.required ]
+      telephone: ['', Validators.required ],
+      email: ['', Validators.required ],
     })
     this.session = JSON.parse(localStorage.getItem('user')).session;
     this.getPatient();
@@ -38,6 +39,7 @@ export class ProfilePage implements OnInit {
     this.http.get(this.apiUrl + '/patients/profile', { headers: headers }).subscribe( (res:any) => {
       this.profileForm.setValue({ 
         full_name: res.data[0].full_name,
+        telephone: res.data[0].telephone,
         email: this.session.user.uid,
       })
       console.log(this.profileForm.value)

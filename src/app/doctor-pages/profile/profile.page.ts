@@ -18,6 +18,7 @@ export class ProfilePage implements OnInit {
     this.profileForm = this.formBuilder.group({
       full_name: ['', Validators.required ],
       description: ['', Validators.required ],
+      telephone: ['', Validators.required ],
       validation: [false]
     })
   }
@@ -35,7 +36,8 @@ export class ProfilePage implements OnInit {
     this.doctorApiService.getDoctor(this.token)
       .subscribe((response: any) => {
         this.profileForm.setValue({ 
-          full_name: response.data.full_name, 
+          full_name: response.data.full_name,
+          telephone: response.data.telephone,
           description: response.data.description,  
           validation: response.data.validation
         })
@@ -48,8 +50,10 @@ export class ProfilePage implements OnInit {
 
   saveProfile(profile) {
     this.saveProfileLoading = true
+    let user = profile
+    delete user.telephone
 
-    this.doctorApiService.putDoctor(profile, this.token)
+    this.doctorApiService.putDoctor(user, this.token)
       .subscribe(response => {
         this.saveProfileLoading = false
         this.saveProfileSuccessful = true

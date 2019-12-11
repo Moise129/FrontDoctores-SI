@@ -110,7 +110,7 @@ export class DoctorApiService {
 			'Content-Type': 'application/json',
 			'Authorization': 'bearer ' + token
 		})
-    return this.http.get(this.apiUrl + '/doctors/profile', { headers: headers })
+    return this.http.get(this.apiUrl + '/doctors/profile', { headers: headers }) 
   }
 
   putDoctor(doctor: any, token: string) {
