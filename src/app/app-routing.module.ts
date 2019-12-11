@@ -13,6 +13,8 @@ const routes: Routes = [
   { path: 'reserved', loadChildren: './doctor-pages/reserved/reserved.module#ReservedPageModule', canActivate: [LoginGuard] },
   { path: 'clinic', loadChildren: './doctor-pages/clinic/clinic.module#ClinicPageModule' },
   { path: 'profile', loadChildren: './doctor-pages/profile/profile.module#ProfilePageModule' },
+  { path: 'validation', loadChildren: './validation/validation.module#ValidationPageModule' },
+  { path: 'update-password/:token/:email', loadChildren: './forgot-password/forgot-password.module#ForgotPasswordPageModule' },
   { path: 'home-patient', loadChildren: './patient-pages/home/home.module#HomePageModule' },
   { path: 'profile-patient', loadChildren: './patient-pages/profile/profile.module#ProfilePageModule' },
 ];
@@ -24,5 +26,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { 
-
 }

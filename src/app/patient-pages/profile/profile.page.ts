@@ -12,19 +12,41 @@ export class ProfilePage implements OnInit {
   profileForm: FormGroup
   saveProfileLoading: boolean = false
   saveProfileSuccessful: boolean = false
+  session:any;
 
-  constructor(private formBuilder: FormBuilder, http:HttpClient) { 
+  apiUrl: string = 'http://127.0.0.1:3333/api/v1' 
+
+  constructor(private formBuilder: FormBuilder, private http:HttpClient) { 
     this.profileForm = this.formBuilder.group({
       full_name: ['', Validators.required ],
-      description: ['', Validators.required ]
+      email: ['', Validators.required ]
     })
+    this.session = JSON.parse(localStorage.getItem('user')).session;
+    this.getPatient();
   }
 
   ngOnInit() {
+    
   }
 
-  getProfile() {
-    let user = JSON.parse(localStorage.getItem('user'));
+  //Patient methods
+  getPatient() {
+		let headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			'Authorization': 'bearer ' + this.session.token
+		})
+    this.http.get(this.apiUrl + '/patients/profile', { headers: headers }).subscribe( (res:any) => {
+      this.profileForm.setValue({ 
+        full_name: res.data[0].full_name,
+        email: this.session.user.uid,
+      })
+      console.log(this.profileForm.value)
+    })
+  }
+
+  saveProfile(profile) {
+    this.saveProfileLoading = true
+    console.log(this.profileForm.value)
   }
 
   /* saveProfile(profile) {

@@ -17,7 +17,8 @@ export class ProfilePage implements OnInit {
   constructor(private formBuilder: FormBuilder, private doctorApiService: DoctorApiService) { 
     this.profileForm = this.formBuilder.group({
       full_name: ['', Validators.required ],
-      description: ['', Validators.required ]
+      description: ['', Validators.required ],
+      validation: [false]
     })
   }
 
@@ -25,12 +26,18 @@ export class ProfilePage implements OnInit {
     this.getProfile()
   }
 
+  onChange(){
+    console.log(this.profileForm.value.validation)
+  }
+  
+
   getProfile() {
     this.doctorApiService.getDoctor(this.token)
       .subscribe((response: any) => {
         this.profileForm.setValue({ 
           full_name: response.data.full_name, 
           description: response.data.description,  
+          validation: response.data.validation
         })
       },
       error => {

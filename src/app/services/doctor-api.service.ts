@@ -6,10 +6,26 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class DoctorApiService {
   //apiUrl: string = 'https://doctorapp-api.herokuapp.com/api/v1'
+  //apiUrl: string  = 'https://backend-doctor.herokuapp.com/api/v1'
+  apiUrl: string = 'http://127.0.0.1:3333/api/v1' 
 
-  apiUrl: string = 'http://127.0.0.1:3333/api/v1'
   constructor(private http: HttpClient) { 
   }
+
+  
+  sendMessage(code:any, token: string) {
+		let headers = new HttpHeaders({
+			'Content-Type': 'application/json',
+			'Authorization': 'bearer ' + token
+		})
+    return this.http.post(this.apiUrl + '/users/send_code_verification', {code:code}, { headers: headers })
+  }
+
+  //validacion de dos pasos
+  updatePassword(token, email, newPassword: any ) {
+    return this.http.put(this.apiUrl + '/users/update_password/'+token+'/'+email, newPassword)
+  }
+
 
 
   //Forgot password
@@ -94,8 +110,7 @@ export class DoctorApiService {
 			'Content-Type': 'application/json',
 			'Authorization': 'bearer ' + token
 		})
-
-    return this.http.get(this.apiUrl + '/doctors/1', { headers: headers })
+    return this.http.get(this.apiUrl + '/doctors/profile', { headers: headers })
   }
 
   putDoctor(doctor: any, token: string) {

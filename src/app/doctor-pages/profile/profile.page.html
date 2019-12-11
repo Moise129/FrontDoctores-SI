@@ -2,10 +2,21 @@
   <form [formGroup]="profileForm" (ngSubmit)="saveProfile(profileForm.value)">
     <ion-grid>
       <ion-row>
-        <ion-col size="10" offset="1">
+        <ion-col size="5" offset="1">
           <ion-input type="text" class="input" readonly formControlName="full_name"></ion-input>
+        </ion-col>
+
+        <ion-col size="5" offset="1">
+          <ion-input type="text" class="input" style="text-align: center;" readonly>
+            <span>
+              &nbsp;&nbsp;Validacion de dos pasos&nbsp;&nbsp;
+              <ion-checkbox color="danger" formControlName="validation" (ionChange)="onChange()"></ion-checkbox>
+            </span>
+          </ion-input>
+        </ion-col>
+
+        <ion-col size="10" offset="1">
           <ion-textarea placeholder="Descripción" class="input" rows="5" formControlName="description"></ion-textarea>
-        
           <div *ngIf="saveProfileSuccessful" style="text-align: center;">
             <ion-label color="success">Perfil guardado con éxito</ion-label>
           </div>
@@ -14,12 +25,12 @@
 
       <ion-row>
         <ion-col size="4" offset="1">
-          <ion-button expand="block" shape="round" color="medium" routerLink="/home" routerDirection="root">Cancelar</ion-button>
+          <ion-button expand="block" shape="round" color="medium" routerLink="/home" routerDirection="root">Cancelar
+          </ion-button>
         </ion-col>
-        
         <ion-col size="4" offset="2">
           <ion-button expand="block" shape="round" type="submit" [disabled]="!profileForm.valid">
-            Guardar&nbsp; 
+            Guardar&nbsp;
             <ion-spinner *ngIf="saveProfileLoading" name="crescent"></ion-spinner>
           </ion-button>
         </ion-col>
@@ -27,4 +38,3 @@
     </ion-grid>
   </form>
 </ion-content>
-  
