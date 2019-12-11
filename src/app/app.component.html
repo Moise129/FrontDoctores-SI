@@ -6,7 +6,7 @@
       </ion-toolbar>
     </ion-header>
     
-    <ion-content>
+    <ion-content *ngIf="isLoggedIn()">
       <ion-list>
         <ion-item>
           <a (click)="navigatePage('profile')" class="link">Perfil</a>

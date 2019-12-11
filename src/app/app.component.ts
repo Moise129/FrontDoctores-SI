@@ -45,6 +45,6 @@ export class AppComponent {
 
   getUserRole(){
     let session = JSON.parse(localStorage.getItem('user')).session
-    return session.user.role_id;
+    return session.user.rol_id;
   }
 }
